@@ -50,11 +50,25 @@ There has to be `@Configuration` annotation, otherwise this runtime manipulation
 
 ## 2. Container extension points
 
-### 2.1 Customizing beans using `BeanPostProcessors`
+### 2.1 Customizing beans using `BeanPostProcessor`
 
 [Spring 1.1.x](https://docs.spring.io/spring-framework/docs/1.1.x/reference/beans.html#beans-factory-customizing) The `BeanPostProcessor` interface defines callback methods that you can implement to provide your own (or override the container’s default) instantiation logic, dependency resolution logic, and so forth. If you want to implement some custom logic after the Spring container finishes instantiating, configuring, and initializing a bean, you can plug in one or more custom `BeanPostProcessor` implementations.
 
 You can configure multiple `BeanPostProcessor` instances, and you can control the order in which these `BeanPostProcessor` instances run by setting the `order` property. You can set this property only if the `BeanPostProcessor` implements the `Ordered` interface. If you write your own `BeanPostProcessor`, you should consider implementing the `Ordered` interface, too. For further details, see the javadoc of the [`BeanPostProcessor`](https://docs.spring.io/spring-framework/docs/5.2.16.RELEASE/javadoc-api/org/springframework/beans/factory/config/BeanPostProcessor.html) and [`Ordered`](https://docs.spring.io/spring-framework/docs/5.2.16.RELEASE/javadoc-api/org/springframework/core/Ordered.html) interfaces. 
+
+![https://pengfeinie.github.io/images/beanpostprocessor-overview.jpg](https://pengfeinie.github.io/images/beanpostprocessor-overview.jpg)
+
+#### 2.1.1 How to create BeanPostProcessor
+
+To create a bean post processor in spring: implement the `**BeanPostProcessor**` interface and implement the callback methods.
+
+#### 2.1.2 How to register BeanPostProcessor
+
+An *ApplicationContext* automatically detects any beans that are defined in the configuration metadata which implement the *BeanPostProcessor* interface. It registers these beans as post-processors so that they can be called later upon bean creation.
+
+Then Spring will pass each bean instance to these two methods before and after calling the initialization callback method where you can process the bean instance the way you like.
+
+#### 2.1.3 When BeanPostProcessor methods are called
 
 ### 2.2 Customizing configuration metadata with `BeanFactoryPostProcessors`
 
