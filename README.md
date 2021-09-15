@@ -60,7 +60,31 @@ You can configure multiple `BeanPostProcessor` instances, and you can control th
 
 #### 2.1.1 How to create BeanPostProcessor
 
-To create a bean post processor in spring: implement the `**BeanPostProcessor**` interface and implement the callback methods.
+To create a bean post processor in spring: implement the `BeanPostProcessor` interface and implement the callback methods.
+
+```
+@Component
+public class GreetingBeanPostProcessor implements BeanPostProcessor {
+
+    @Nullable
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        if (bean instanceof GreetingService) {
+            System.out.printf("BeforeInitialization() in %s for %s%n", getClass().getSimpleName(), beanName);
+        }
+        return bean;
+    }
+
+    @Nullable
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        if (bean instanceof GreetingService) {
+            System.out.printf("AfterInitialization() in %s for %s%n", getClass().getSimpleName(), beanName);
+        }
+        return bean;
+    }
+}
+```
 
 #### 2.1.2 How to register BeanPostProcessor
 
@@ -70,7 +94,7 @@ Then Spring will pass each bean instance to these two methods before and after c
 
 #### 2.1.3 When BeanPostProcessor methods are called
 
-### 2.2 Customizing configuration metadata with `BeanFactoryPostProcessors`
+### 2.2 Customizing configuration metadata with `BeanFactoryPostProcessor`
 
 [Spring 1.1.x](https://docs.spring.io/spring-framework/docs/1.1.x/reference/beans.html#beans-factory-customizing)  The next extension point that we look at is the `org.springframework.beans.factory.config.BeanFactoryPostProcessor`. The semantics of this interface are similar to those of the `BeanPostProcessor`, with one major difference: `BeanFactoryPostProcessor` operates on the bean configuration metadata. That is, the Spring IoC container lets a `BeanFactoryPostProcessor` read the configuration metadata and potentially change it *before* the container instantiates any beans other than `BeanFactoryPostProcessor` instances.
 
