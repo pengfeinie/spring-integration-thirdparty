@@ -26,6 +26,8 @@ XML-based configuration metadata configures these beans as `<bean/>` elements in
 
 Spring 2.5 introduced support for annotation-based configuration metadata. An alternative to XML setup is provided by annotation-based configuration, which relies on the bytecode metadata for wiring up components instead of angle-bracket declarations. Instead of using XML to describe a bean wiring, the developer moves the configuration into the component class itself by using annotations on the relevant class, method, or field declaration.
 
+![https://pengfeinie.github.io/images/Slide1.JPG](https://pengfeinie.github.io/images/Slide1.JPG)
+
 ### 1.3 Java-based configuration
 
 Java configuration typically uses `@Bean`-annotated methods within a `@Configuration` class. The central artifacts in Spring’s new Java-configuration support are `@Configuration`-annotated classes and `@Bean`-annotated methods.
