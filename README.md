@@ -32,7 +32,7 @@ The `@Bean` annotation is used to indicate that a method instantiates, configure
 
 Annotating a class with `@Configuration` indicates that its primary purpose is as a source of bean definitions. Furthermore, `@Configuration` classes let inter-bean dependencies be defined by calling other `@Bean` methods in the same class. 
 
-![image-20210915125617325](E:\npfsourcecode\java\sourcecode\pengfeinie.github.io\images\image-20210915125617325.png)
+![image-20210915125617325](https://pengfeinie.github.io/images/image-20210915125617325.png)
 
 > @Configuration Classes are Subclassed by CGLIB
 >
