@@ -36,37 +36,37 @@ Annotating a class with `@Configuration` indicates that its primary purpose is a
 
 ![image-20210915125617325](https://pengfeinie.github.io/images/image-20210915125617325.png)
 
-> @Configuration Classes are Subclassed by CGLIB
->
-> All @Configuration classes are subclassed at startup-time with CGLIB. In the subclass, the child method checks the container first for any cached (scoped) beans before it calls the parent method and creates a new instance.
->
->  CGLIB proxying is the means by which invoking methods or fields within @Bean methods in @Configuration classes creates bean metadata references to collaborating objects; such methods are not invoked with normal Java semantics but rather go through the container in order to provide the usual lifecycle management and proxying of Spring beans even when referring to other beans via programmatic calls to @Bean methods.
->
-> That's why all methods will return the same instance at multiple calls (if they are singleton scoped which is the default scope).
->
-> There has to be `@Configuration` annotation, otherwise this runtime manipulation won't be done.
+**@Configuration Classes are Subclassed by CGLIB**
+
+All @Configuration classes are subclassed at startup-time with CGLIB. In the subclass, the child method checks the container first for any cached (scoped) beans before it calls the parent method and creates a new instance.
+
+ CGLIB proxying is the means by which invoking methods or fields within @Bean methods in @Configuration classes creates bean metadata references to collaborating objects; such methods are not invoked with normal Java semantics but rather go through the container in order to provide the usual lifecycle management and proxying of Spring beans even when referring to other beans via programmatic calls to @Bean methods.
+
+That's why all methods will return the same instance at multiple calls (if they are singleton scoped which is the default scope).
+
+There has to be `@Configuration` annotation, otherwise this runtime manipulation won't be done.
 
 ## 2. Container extension points
 
-https://docs.spring.io/spring-framework/docs/2.0.x/reference/beans.html#beans-factory-extension
-
 ### 2.1 Customizing beans using `BeanPostProcessors`
 
-The `BeanPostProcessor` interface defines callback methods that you can implement to provide your own (or override the container’s default) instantiation logic, dependency resolution logic, and so forth. If you want to implement some custom logic after the Spring container finishes instantiating, configuring, and initializing a bean, you can plug in one or more custom `BeanPostProcessor` implementations.
+[Spring 1.1.x](https://docs.spring.io/spring-framework/docs/1.1.x/reference/beans.html#beans-factory-customizing) The `BeanPostProcessor` interface defines callback methods that you can implement to provide your own (or override the container’s default) instantiation logic, dependency resolution logic, and so forth. If you want to implement some custom logic after the Spring container finishes instantiating, configuring, and initializing a bean, you can plug in one or more custom `BeanPostProcessor` implementations.
 
 You can configure multiple `BeanPostProcessor` instances, and you can control the order in which these `BeanPostProcessor` instances run by setting the `order` property. You can set this property only if the `BeanPostProcessor` implements the `Ordered` interface. If you write your own `BeanPostProcessor`, you should consider implementing the `Ordered` interface, too. For further details, see the javadoc of the [`BeanPostProcessor`](https://docs.spring.io/spring-framework/docs/5.2.16.RELEASE/javadoc-api/org/springframework/beans/factory/config/BeanPostProcessor.html) and [`Ordered`](https://docs.spring.io/spring-framework/docs/5.2.16.RELEASE/javadoc-api/org/springframework/core/Ordered.html) interfaces. 
 
 ### 2.2 Customizing configuration metadata with `BeanFactoryPostProcessors`
 
-The next extension point that we look at is the `org.springframework.beans.factory.config.BeanFactoryPostProcessor`. The semantics of this interface are similar to those of the `BeanPostProcessor`, with one major difference: `BeanFactoryPostProcessor` operates on the bean configuration metadata. That is, the Spring IoC container lets a `BeanFactoryPostProcessor` read the configuration metadata and potentially change it *before* the container instantiates any beans other than `BeanFactoryPostProcessor` instances.
+[Spring 1.1.x](https://docs.spring.io/spring-framework/docs/1.1.x/reference/beans.html#beans-factory-customizing)  The next extension point that we look at is the `org.springframework.beans.factory.config.BeanFactoryPostProcessor`. The semantics of this interface are similar to those of the `BeanPostProcessor`, with one major difference: `BeanFactoryPostProcessor` operates on the bean configuration metadata. That is, the Spring IoC container lets a `BeanFactoryPostProcessor` read the configuration metadata and potentially change it *before* the container instantiates any beans other than `BeanFactoryPostProcessor` instances.
 
 You can configure multiple `BeanFactoryPostProcessor` instances, and you can control the order in which these `BeanFactoryPostProcessor` instances run by setting the `order` property. However, you can only set this property if the `BeanFactoryPostProcessor` implements the `Ordered` interface. If you write your own `BeanFactoryPostProcessor`, you should consider implementing the `Ordered` interface, too. See the javadoc of the [`BeanFactoryPostProcessor`](https://docs.spring.io/spring-framework/docs/5.2.16.RELEASE/javadoc-api/org/springframework/beans/factory/config/BeanFactoryPostProcessor.html) and [`Ordered`](https://docs.spring.io/spring-framework/docs/5.2.16.RELEASE/javadoc-api/org/springframework/core/Ordered.html) interfaces for more details.
 
 ### 2.3 Customizing instantiation logic using `FactoryBean`
 
-### 2.4 @Bean-based
+[Spring 1.1.x](https://docs.spring.io/spring-framework/docs/1.1.x/reference/beans.html#beans-factory-customizing) 
 
-### 2.5 ImportSelector
+### 2.4 @Configuration+@Bean
 
-### 2.6 ImportBeanDefinitionRegistrar
+### 2.5 @Configuration+@Import+ImportSelector
+
+### 2.6 @Configuration+@Import+ImportBeanDefinitionRegistrar
 
