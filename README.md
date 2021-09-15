@@ -92,8 +92,6 @@ An *ApplicationContext* automatically detects any beans that are defined in the 
 
 Then Spring will pass each bean instance to these two methods before and after calling the initialization callback method where you can process the bean instance the way you like.
 
-#### 2.1.3 When BeanPostProcessor methods are called
-
 ### 2.2 Customizing configuration metadata with `BeanFactoryPostProcessor`
 
 [Spring 1.1.x](https://docs.spring.io/spring-framework/docs/1.1.x/reference/beans.html#beans-factory-customizing)  The next extension point that we look at is the `org.springframework.beans.factory.config.BeanFactoryPostProcessor`. The semantics of this interface are similar to those of the `BeanPostProcessor`, with one major difference: `BeanFactoryPostProcessor` operates on the bean configuration metadata. That is, the Spring IoC container lets a `BeanFactoryPostProcessor` read the configuration metadata and potentially change it *before* the container instantiates any beans other than `BeanFactoryPostProcessor` instances.
