@@ -70,7 +70,7 @@ public class GreetingBeanPostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof GreetingService) {
-            System.out.printf("BeforeInitialization() in %s for %s%n", getClass().getSimpleName(), beanName);
+            System.out.printf("BeforeInitialization in %s for %s%n", getClass().getSimpleName(),beanName);
         }
         return bean;
     }
@@ -79,7 +79,7 @@ public class GreetingBeanPostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof GreetingService) {
-            System.out.printf("AfterInitialization() in %s for %s%n", getClass().getSimpleName(), beanName);
+            System.out.printf("AfterInitialization in %s for %s%n", getClass().getSimpleName(),beanName);
         }
         return bean;
     }
