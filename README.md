@@ -20,6 +20,8 @@ As the preceding diagram shows, the Spring IoC container consumes a form of conf
 
 XML-based configuration metadata configures these beans as `<bean/>` elements inside a top-level `<beans/>` element.
 
+![https://docs.spring.io/spring-framework/docs/3.0.0.M3/reference/html/images/eclipse-setup-2.png](https://docs.spring.io/spring-framework/docs/3.0.0.M3/reference/html/images/eclipse-setup-2.png)
+
 ### 1.2 Annotation-based configuration
 
 Spring 2.5 introduced support for annotation-based configuration metadata. An alternative to XML setup is provided by annotation-based configuration, which relies on the bytecode metadata for wiring up components instead of angle-bracket declarations. Instead of using XML to describe a bean wiring, the developer moves the configuration into the component class itself by using annotations on the relevant class, method, or field declaration.
