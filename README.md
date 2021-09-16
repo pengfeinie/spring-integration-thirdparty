@@ -195,3 +195,17 @@ public class AppConfig1 {
 }
 ```
 
+What is the difference between ImportSelector and ImportBeanDefinitionRegistar in Spring?
+
+1. What is the difference between `ImportSelector` and `ImportBeanDefinitionRegistar`?
+2. Which scenario should be use `ImportSelector` or `ImportBeanDefinitionRegistar` and why?
+
+The [`ImportSelector`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ImportSelector.html) is an
+
+> Interface to be implemented by types that determine which @Configuration class(es) should be imported based on a given selection criteria, usually one or more annotation attributes.
+
+The [`ImportBeanDefinitionRegistrar`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ImportBeanDefinitionRegistrar.html) is an
+
+> Interface to be implemented by types that register additional bean definitions when processing @Configuration classes. Useful when operating at the bean definition level (as opposed to @Bean method/instance level) is desired or necessary.
+
+In one hand, the `ImportSelector` is used to import configurations based on given criteria and on the other hand, the `ImportBeanDefinitionRegistrar` is used to register additional beans when processing configurations. This is two different usages.
