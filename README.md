@@ -68,18 +68,18 @@ public class GreetingBeanPostProcessor implements BeanPostProcessor {
 
     @Nullable
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessBeforeInitialization(Object bean,String beanName) throws BeansException {
         if (bean instanceof GreetingService) {
-            System.out.printf("BeforeInitialization in %s for %s%n", getClass().getSimpleName(),beanName);
+            System.out.printf("BeforeInitialization");
         }
         return bean;
     }
 
     @Nullable
     @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessAfterInitialization(Object bean,String beanName) throws BeansException {
         if (bean instanceof GreetingService) {
-            System.out.printf("AfterInitialization in %s for %s%n", getClass().getSimpleName(),beanName);
+            System.out.printf("AfterInitialization");
         }
         return bean;
     }
@@ -97,6 +97,29 @@ Then Spring will pass each bean instance to these two methods before and after c
 [Spring 1.1.x](https://docs.spring.io/spring-framework/docs/1.1.x/reference/beans.html#beans-factory-customizing)  The next extension point that we look at is the `org.springframework.beans.factory.config.BeanFactoryPostProcessor`. The semantics of this interface are similar to those of the `BeanPostProcessor`, with one major difference: `BeanFactoryPostProcessor` operates on the bean configuration metadata. That is, the Spring IoC container lets a `BeanFactoryPostProcessor` read the configuration metadata and potentially change it *before* the container instantiates any beans other than `BeanFactoryPostProcessor` instances.
 
 You can configure multiple `BeanFactoryPostProcessor` instances, and you can control the order in which these `BeanFactoryPostProcessor` instances run by setting the `order` property. However, you can only set this property if the `BeanFactoryPostProcessor` implements the `Ordered` interface. If you write your own `BeanFactoryPostProcessor`, you should consider implementing the `Ordered` interface, too. See the javadoc of the [`BeanFactoryPostProcessor`](https://docs.spring.io/spring-framework/docs/5.2.16.RELEASE/javadoc-api/org/springframework/beans/factory/config/BeanFactoryPostProcessor.html) and [`Ordered`](https://docs.spring.io/spring-framework/docs/5.2.16.RELEASE/javadoc-api/org/springframework/core/Ordered.html) interfaces for more details.
+
+```
+public class MapperScannerConfigurer implements BeanFactoryPostProcessor, InitializingBean {
+...
+
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+        Scanner scanner = new Scanner((BeanDefinitionRegistry) beanFactory);
+        scanner.scan(StringUtils.tokenizeToStringArray(this.basePackage,
+                ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
+    }
+...
+    private final class Scanner extends ClassPathBeanDefinitionScanner {
+
+        public Scanner(BeanDefinitionRegistry registry) {
+            super(registry)
+        }
+  
+        @Override
+        protected void registerDefaultFilters() {
+            boolean acceptAllInterfaces = true;
+        }
+}
+```
 
 ### 2.3 Customizing instantiation logic using `FactoryBean`
 
