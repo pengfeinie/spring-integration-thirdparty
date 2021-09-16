@@ -100,23 +100,64 @@ You can configure multiple `BeanFactoryPostProcessor` instances, and you can con
 
 [MapperScannerConfigurer](https://github.com/mybatis/spring/blob/1.2.x/src/main/java/org/mybatis/spring/mapper/MapperScannerConfigurer.java)
 
-```
-public class MapperScannerConfigurer implements BeanFactoryPostProcessor, InitializingBean {
-    ...
-
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
-        ...
-    }
-}
-```
-
 ### 2.3 Customizing instantiation logic using `FactoryBean`
 
-[Spring 1.1.x](https://docs.spring.io/spring-framework/docs/1.1.x/reference/beans.html#beans-factory-customizing) 
+[Spring 1.1.x](https://docs.spring.io/spring-framework/docs/1.1.x/reference/beans.html#beans-factory-customizing)  You can implement the `org.springframework.beans.factory.FactoryBean` interface for objects that are themselves factories.
+
+The `FactoryBean` interface is a point of pluggability into the Spring IoC container’s instantiation logic. If you have complex initialization code that is better expressed in Java as opposed to a (potentially) verbose amount of XML, you can create your own `FactoryBean`, write the complex initialization inside that class, and then plug your custom `FactoryBean` into the container. 
+
+The `FactoryBean` concept and interface is used in a number of places within the Spring Framework. When you need to ask a container for an actual `FactoryBean` instance itself instead of the bean it produces, preface the bean’s `id` with the ampersand symbol (`&`) when calling the `getBean()` method of the `ApplicationContext`. So, for a given `FactoryBean` with an `id` of `myBean`, invoking `getBean("myBean")` on the container returns the product of the `FactoryBean`, whereas invoking `getBean("&myBean")` returns the `FactoryBean` instance itself.
+
+```
+  @Bean
+  public MapperFactoryBean<UserMapper> userMapper() throws Exception {
+	 MapperFactoryBean<UserMapper> factoryBean = new MapperFactoryBean<UserMapper>();
+	 factoryBean.setMapperInterface(UserMapper.class);
+	 factoryBean.setSqlSessionFactory(sqlSessionFactory().getObject());
+	 return factoryBean;
+  }
+```
 
 ### 2.4 @Configuration+@Bean
 
+The central artifacts in Spring’s new Java-configuration support are `@Configuration`-annotated classes and `@Bean`-annotated methods.
+
+The `@Bean` annotation is used to indicate that a method instantiates, configures, and initializes a new object to be managed by the Spring IoC container. For those familiar with Spring’s `<beans/>` XML configuration, the `@Bean` annotation plays the same role as the `<bean/>` element. You can use `@Bean`-annotated methods with any Spring `@Component`. However, they are most often used with `@Configuration` beans.
+
+Annotating a class with `@Configuration` indicates that its primary purpose is as a source of bean definitions. Furthermore, `@Configuration` classes let inter-bean dependencies be defined by calling other `@Bean` methods in the same class.
+
+```
+@Configuration
+public class AppConfig {
+	
+	  @Bean
+	  public MapperFactoryBean<UserMapper> userMapper() throws Exception {
+	    MapperFactoryBean<UserMapper> factoryBean = new MapperFactoryBean<UserMapper>();
+	    factoryBean.setMapperInterface(UserMapper.class);
+	    factoryBean.setSqlSessionFactory(sqlSessionFactory().getObject());
+	    return factoryBean;
+	  }
+}
+```
+
 ### 2.5 @Configuration+@Import+ImportSelector
 
+Spring’s Java-based configuration feature lets you compose annotations, which can reduce the complexity of your configuration. Much as the `<import/>` element is used within Spring XML files to aid in modularizing configurations, the `@Import` annotation allows for loading `@Bean` definitions from another configuration class, as the following example shows:
+
 ### 2.6 @Configuration+@Import+ImportBeanDefinitionRegistrar
+
+```
+@Configuration
+@MapperScan(basePackages= {"org.example1.mapper"})
+@Import(MapperScannerRegistrar.class)
+public class AppConfig1 {
+	  
+	  @Bean
+	  public SqlSessionFactoryBean sqlSessionFactory() {
+		  SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+		  sqlSessionFactoryBean.setDataSource(dataSource());
+		  return sqlSessionFactoryBean;
+	  }
+}
+```
 
