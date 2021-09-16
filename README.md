@@ -144,7 +144,41 @@ public class AppConfig {
 
 Spring’s Java-based configuration feature lets you compose annotations, which can reduce the complexity of your configuration. Much as the `<import/>` element is used within Spring XML files to aid in modularizing configurations, the `@Import` annotation allows for loading `@Bean` definitions from another configuration class, as the following example shows:
 
+```
+/**
+ * @author Chris Beams
+ * @since 3.1
+ * @see DeferredImportSelector
+ * @see Import
+ * @see ImportBeanDefinitionRegistrar
+ * @see Configuration
+ */
+public interface ImportSelector {
+
+	/**
+	 * Select and return the names of which class(es) should be imported based on
+	 * the {@link AnnotationMetadata} of the importing @{@link Configuration} class.
+	 */
+	String[] selectImports(AnnotationMetadata importingClassMetadata);
+
+}
+```
+
 ### 2.6 @Configuration+@Import+ImportBeanDefinitionRegistrar
+
+Spring officially by ImportBeanDefinitionRegistrar injection mechanism to achieve a dynamic annotation @ Component, @ Service and so on.
+
+Many constituents integrated with the Spring framework, through the interface will achieve the specified class scanning, and then registered to the spring container. Mapper interfaces in such Mybatis, springCloud FeignClient the interface are registered custom logic implemented through this interface.
+
+All the classes that implement the interface will be treated ConfigurationClassPostProcessor, ConfigurationClassPostProcessor achieved BeanFactoryPostProcessor interface, dynamically registered ImportBeanDefinitionRegistrar bean bean initialization which depends on the priority thereof, can also be aop, validator processing mechanisms.
+
+The basic steps:
+
+- ImportBeanDefinitionRegistrar implement the interface;
+- Implement particular class initializing registerBeanDefinitions;
+- @Import introduced using implementation class on the class @Configuration annotation configuration;
+
+[MapperScannerRegistrar](https://github.com/mybatis/spring/blob/1.3.x/src/main/java/org/mybatis/spring/annotation/MapperScannerRegistrar.java)
 
 ```
 @Configuration
