@@ -1,4 +1,17 @@
-
+* [1\. Configuration Metadata](#1-configuration-metadata)
+  * [1\.1 XML\-based configuration](#11-xml-based-configuration)
+  * [1\.2 Annotation\-based configuration](#12-annotation-based-configuration)
+  * [1\.3 Java\-based configuration](#13-java-based-configuration)
+* [2\. Container extension points](#2-container-extension-points)
+  * [2\.1 Customizing beans using BeanPostProcessor](#21-customizing-beans-using-beanpostprocessor)
+    * [2\.1\.1 How to create BeanPostProcessor](#211-how-to-create-beanpostprocessor)
+    * [2\.1\.2 How to register BeanPostProcessor](#212-how-to-register-beanpostprocessor)
+  * [2\.2 Customizing configuration metadata with BeanFactoryPostProcessor](#22-customizing-configuration-metadata-with-
+  beanfactorypostprocessor)
+  * [2\.3 Customizing instantiation logic using FactoryBean](#23-customizing-instantiation-logic-using-factorybean)
+  * [2\.4 @Configuration\+@Bean](#24-configurationbean)
+  * [2\.5 @Configuration\+@Import\+ImportSelector](#25-configurationimportimportselector)
+  * [2\.6 @Configuration\+@Import\+ImportBeanDefinitionRegistrar](#26-configurationimportimportbeandefinitionregistrar)
 
 ## 1. Configuration Metadata
 
