@@ -6,8 +6,7 @@
   * [2\.1 Customizing beans using BeanPostProcessor](#21-customizing-beans-using-beanpostprocessor)
     * [2\.1\.1 How to create BeanPostProcessor](#211-how-to-create-beanpostprocessor)
     * [2\.1\.2 How to register BeanPostProcessor](#212-how-to-register-beanpostprocessor)
-  * [2\.2 Customizing configuration metadata with BeanFactoryPostProcessor](#22-customizing-configuration-metadata-with-
-  beanfactorypostprocessor)
+  * [2\.2 Customizing configuration metadata with BeanFactoryPostProcessor](#22-customizing-configuration-metadata-with-beanfactorypostprocessor)
   * [2\.3 Customizing instantiation logic using FactoryBean](#23-customizing-instantiation-logic-using-factorybean)
   * [2\.4 @Configuration\+@Bean](#24-configurationbean)
   * [2\.5 @Configuration\+@Import\+ImportSelector](#25-configurationimportimportselector)
